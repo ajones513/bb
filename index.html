@@ -7,8 +7,33 @@
     </style>
 </head>
 <body>
-    <div style="background: lime;">hello</div>
+    <div style="background: lime;">Welcome</div>
+    Token <input/>
+    ID <input/>
+    Text <input/>
+    <button>Update</button>
     
-    <script>document.write('js on');</script>
+    <script>
+        document.querySelector('button').addEventListener('click', function() {
+            var req = new XMLHttpRequest(),
+                inputs = document.querySelectorAll('input'),
+                token = inputs[0].value,
+                id = inputs[1].value,
+                text = inputs[2].value;
+
+            req.open('PATCH', 'https://api.github.com/gists/' + id);
+            req.setRequestHeader('Authorization', 'token ' + token);
+
+            var data = {
+              "files": {
+                "bb.json": {
+                  "content": text
+                }
+              }
+            };
+
+            req.send(JSON.stringify(data));
+        });
+    </script>
 </body>
 </html>
